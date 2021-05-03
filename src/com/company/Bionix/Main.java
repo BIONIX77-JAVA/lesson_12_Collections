@@ -49,21 +49,21 @@ public class Main {
                 new Contact("+380978654675", "Peter"));
 
         Collection<Message> messages = Arrays.asList(
-                new Message("+380985869432", " there was a cat"),
-                new Message("+380987676788", " there was a dog"),
-                new Message("+380578788888", " there was a big cat"),
-                new Message("+380668866888", " there was a small cat"),
-                new Message("+380657878895", " there was a big dog"),
-                new Message("+380568787876", " there was a sweet cat"),
-                new Message("+380985869432", " there was a ugly dog"),
-                new Message("+380985869432", " there was a fast cat"),
-                new Message("+380985869432", " there was a slowly dog"));
+                new Message("+380985869432", " there was a cat", Message.Status.Incoming),
+                new Message("+380987676788", " there was a dog", Message.Status.Outgoing),
+                new Message("+380578788888", " there was a big cat", Message.Status.Incoming),
+                new Message("+380668866888", " there was a small cat", Message.Status.Incoming),
+                new Message("+380657878895", " there was a big dog", Message.Status.Outgoing),
+                new Message("+380858785656", " there was a sweet cat", Message.Status.Incoming),
+                new Message("+380985869432", " there was a ugly dog", Message.Status.Incoming),
+                new Message("+380985869432", " there was a fast cat", Message.Status.Incoming),
+                new Message("+380985869432", " there was a slowly dog", Message.Status.Outgoing));
 
         Map<String, List<CallLog>> groupedCalls =
                 GroupItemsByUtils.groupCallLogsByNumber(callLogs);
         Map<String, Contact> groupedContacts =
                 GroupItemsByUtils.groupContactsByNumber(contacts);
-        Map<String, Message> groupedMessages =
+        Map<String, List<Message>> groupedMessages =
                 GroupItemsByUtils.groupMessagesByNumber(messages);
         for (Map.Entry<String, List<CallLog>> entry : groupedCalls.entrySet()) {
             String phoneNumber = entry.getKey();
@@ -73,13 +73,11 @@ public class Main {
                     : phoneNumber;
             System.out.println("Name : " + contactName);
 
-            for (Map.Entry<String, Message> messageEntry : groupedMessages.entrySet()) {
-                phoneNumber = messageEntry.getKey();
-                Message message = groupedMessages.get(phoneNumber);
-                String messageText = message != null
+            for (Message message : groupedMessages.get(phoneNumber)) {
+                String text = message.massageText != null
                         ? message.massageText
-                        : phoneNumber;
-                System.out.println(" Text : " + messageText);
+                        : "There is no messages dy this number";
+                System.out.println("Text of message : " + message.massageText);
             }
 
             for (CallLog callLog : entry.getValue()) {

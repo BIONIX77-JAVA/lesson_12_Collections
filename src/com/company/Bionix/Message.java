@@ -5,10 +5,17 @@ import java.util.Objects;
 public class Message {
     public String phoneNumber;
     public String massageText;
+    public Status status;
 
-    public Message(String phoneNumber, String massageText) {
+    public Message(String phoneNumber, String massageText, Status status) {
         this.phoneNumber = phoneNumber;
         this.massageText = massageText;
+        this.status = status;
+    }
+
+    public enum Status{
+        Incoming,
+        Outgoing,
     }
 
     @Override
@@ -16,11 +23,11 @@ public class Message {
         if (this == o) return true;
         if (!(o instanceof Message)) return false;
         Message message = (Message) o;
-        return Objects.equals(phoneNumber, message.phoneNumber) && Objects.equals(massageText, message.massageText);
+        return Objects.equals(phoneNumber, message.phoneNumber) && Objects.equals(massageText, message.massageText) && status == message.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phoneNumber, massageText);
+        return Objects.hash(phoneNumber, massageText, status);
     }
 }

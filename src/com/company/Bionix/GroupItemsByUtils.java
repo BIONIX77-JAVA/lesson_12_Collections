@@ -13,12 +13,22 @@ public class GroupItemsByUtils {
         return result;
     }
 
-    public static Map<String, Message> groupMessagesByNumber(Collection<Message> messages) {
-        Map<String, Message> result = new HashMap<>();
+    public static Map<String, List<Message>>groupMessagesByNumber(Collection<Message> messages) {
+        Map<String, List<Message>> output = new HashMap<>();
         for (Message message : messages) {
-            result.put(message.phoneNumber, message);
+            List<Message> exitingGroup1 = output.get(message.phoneNumber);
+            if (exitingGroup1 == null) {
+                List<Message> newGroup = new ArrayList<>();
+                newGroup.add(message);
+                output.put(message.phoneNumber, newGroup);
+                if(message.phoneNumber==null||message.massageText==null){
+//                    message.massageText.equals("There is no messages");
+                }
+            } else {
+                exitingGroup1.add(message);
+            }
         }
-        return result;
+        return output;
     }
 
     public static Map<String, List<CallLog>> groupCallLogsByNumber(Collection<CallLog> callLogs) {
@@ -26,13 +36,13 @@ public class GroupItemsByUtils {
         Map<String, List<CallLog>> output = new HashMap<>();
         for (CallLog callLog : callLogs) {
 
-            List<CallLog> exitingGroup = output.get(callLog.phoneNumber);
-            if (exitingGroup == null) {
+            List<CallLog> exitingGroup2 = output.get(callLog.phoneNumber);
+            if (exitingGroup2 == null) {
                 List<CallLog> newGroup = new ArrayList<>();
                 newGroup.add(callLog);
                 output.put(callLog.phoneNumber, newGroup);
             } else {
-                exitingGroup.add(callLog);
+                exitingGroup2.add(callLog);
             }
         }
         return output;
