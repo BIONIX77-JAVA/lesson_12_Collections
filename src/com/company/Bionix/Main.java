@@ -8,7 +8,6 @@ public class Main {
         new Main().run();
     }
 
-
     public void run() {
 
         Collection<CallLog> callLogs = Arrays.asList(
