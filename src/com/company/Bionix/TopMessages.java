@@ -10,7 +10,7 @@ public class TopMessages {
         for (Message message : messages) {
             Integer messageCount = messageCountPerNumber.get(message.phoneNumber);
             if (messageCount == null) {
-               messageCount = 0;
+                messageCount = 0;
             }
             messageCount++;
             messageCountPerNumber.put(message.phoneNumber, messageCount);
@@ -41,7 +41,7 @@ public class TopMessages {
         return finalResult;
     }
 
-    public static class ContactWithMessages{
+    public static class ContactWithMessages {
         public Contact contact;
         public int messageCount;
 
@@ -53,8 +53,8 @@ public class TopMessages {
         @Override
         public String toString() {
             return
-                     contact +
-                    " messageCount : " + messageCount;
+                    contact +
+                            " messageCount : " + messageCount;
         }
     }
 }

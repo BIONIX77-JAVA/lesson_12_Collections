@@ -46,14 +46,4 @@ public class GroupItemsByUtils {
         }
         return output;
     }
-
-    public static Collection<String> find(Collection<String> items, String text) {
-        Collection<String> result = new LinkedList<>();
-        for (String item : items) {
-            if (item.contains(text)) {
-                result.add(item);
-            }
-        }
-        return result;
-    }
 }

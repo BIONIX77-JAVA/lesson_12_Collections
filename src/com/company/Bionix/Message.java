@@ -35,6 +35,6 @@ public class Message {
     public String toString() {
         return
                 ",   massageText=   " + massageText +
-                ", status=" + status;
+                        ", status=" + status;
     }
 }

@@ -1,5 +1,6 @@
 package com.company.Bionix;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 public class Main {
@@ -63,6 +64,7 @@ public class Main {
                 new Message("+380985869432", " \"there was a slowly dog\"", Message.Status.Outgoing),
                 new Message("+380985869432", " \"there was a slowly dog\"", Message.Status.Outgoing));
 
+
         Map<String, List<CallLog>> groupedCalls =
                 GroupItemsByUtils.groupCallLogsByNumber(callLogs);
         Map<String, Contact> groupedContacts =
@@ -117,7 +119,8 @@ public class Main {
 
 
         Set<CallLog> callLogSet = new HashSet<>(callLogs);
-        System.out.println("We have " + callLogSet.size() + " unique callLogs( 4 of it not unique): ");
+        System.out.println("----------------------------------------\n");
+        System.out.println("We have " + callLogSet.size() + " unique callLogs: ");
         for (CallLog callLog : callLogSet) {
             System.out.printf("Phone number : \'%5s%10d%15s\' \n", callLog.phoneNumber, callLog.duration, callLog.status);
         }
@@ -135,5 +138,23 @@ public class Main {
         System.out.println("_________________Top 5 contacts by messages________________");
         List<TopMessages.ContactWithMessages> top5ContactsByMessages = TopMessages.getTop5ContactsByMessages(contacts, messages);
         top5ContactsByMessages.forEach(System.out::println);
+
+        System.out.println("_________________Find ________________");
+        Collection<Contact> findThis = find(contacts, "John");
+        if (findThis.isEmpty()) {
+            System.out.println("There is no such text");
+        } else {
+            findThis.forEach(System.out::println);
+        }
+    }
+
+    public static Collection<Contact> find(Collection<Contact> items, String text) {
+        Collection<Contact> result = new ArrayList<>();
+        for (Contact item : items) {
+            if (item.phoneNumber.contains(text) || item.name.contains(text)) {
+                result.add(item);
+            }
+        }
+        return result;
     }
 }
