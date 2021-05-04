@@ -5,7 +5,7 @@ import java.util.*;
 
 public class GroupItemsByUtils {
 
-    public static Map<String, Contact> groupContactsByNumber( Collection<Contact> contacts) {
+    public static Map<String, Contact> groupContactsByNumber(Collection<Contact> contacts) {
         Map<String, Contact> result = new HashMap<>();
         for (Contact contact : contacts) {
             result.put(contact.phoneNumber, contact);
@@ -13,7 +13,7 @@ public class GroupItemsByUtils {
         return result;
     }
 
-    public static Map<String, List<Message>>groupMessagesByNumber(Collection<Message> messages,Collection<Contact>contacts) {
+    public static Map<String, List<Message>> groupMessagesByNumber(Collection<Message> messages, Collection<Contact> contacts) {
         Map<String, List<Message>> output = new HashMap<>();
         for (Message message : messages) {
             if (output.containsKey(message.phoneNumber)) {
@@ -25,10 +25,11 @@ public class GroupItemsByUtils {
             }
         }
         for (Contact contact : contacts) {
-           output.putIfAbsent(contact.phoneNumber,new ArrayList<>());
+            output.putIfAbsent(contact.phoneNumber, new ArrayList<>());
         }
         return output;
     }
+
     public static Map<String, List<CallLog>> groupCallLogsByNumber(Collection<CallLog> callLogs) {
 
         Map<String, List<CallLog>> output = new HashMap<>();
@@ -46,7 +47,7 @@ public class GroupItemsByUtils {
         return output;
     }
 
-    private Collection<String> find(Collection<String> items, String text) {
+    public static Collection<String> find(Collection<String> items, String text) {
         Collection<String> result = new LinkedList<>();
         for (String item : items) {
             if (item.contains(text)) {

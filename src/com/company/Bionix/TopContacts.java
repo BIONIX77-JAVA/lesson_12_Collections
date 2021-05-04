@@ -88,7 +88,7 @@ public class TopContacts {
 
         @Override
         public String toString() {
-            return  contact +
+            return contact +
                     "callsCounts : " + callsCount;
         }
     }

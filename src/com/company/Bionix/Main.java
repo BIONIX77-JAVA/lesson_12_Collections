@@ -69,6 +69,7 @@ public class Main {
                 GroupItemsByUtils.groupContactsByNumber(contacts);
         Map<String, List<Message>> groupedMessages =
                 GroupItemsByUtils.groupMessagesByNumber(messages, contacts);
+
         for (Map.Entry<String, List<CallLog>> entry : groupedCalls.entrySet()) {
             String phoneNumber = entry.getKey();
             Contact contact = groupedContacts.get(phoneNumber);
@@ -107,14 +108,14 @@ public class Main {
             System.out.println();
         }
 
-
         Set<Contact> contactsSet = new HashSet<>(contacts);
         System.out.println("----------------------------------------\n");
         System.out.println("We have " + contactsSet.size() + " unique contacts ( 3 of it not unique): ");
         for (Contact contact1 : contactsSet) {
             System.out.printf("Name :  \'%6s\'   phone number : \'%5s\' \n", contact1.name, contact1.phoneNumber);
         }
-        System.out.println("----------------------------------------\n");
+
+
         Set<CallLog> callLogSet = new HashSet<>(callLogs);
         System.out.println("We have " + callLogSet.size() + " unique callLogs( 4 of it not unique): ");
         for (CallLog callLog : callLogSet) {
@@ -127,9 +128,12 @@ public class Main {
             System.out.printf("Phone number : \'%15s%25s%10s\' \n", message.phoneNumber, message.massageText, message.status);
         }
 
-
-        System.out.println("_________________Top 5 contacts________________");
+        System.out.println("_________________Top 5 contacts by calls________________");
         List<TopContacts.ContactWithCallsCount> top5Contacts = TopContacts.getTop5Contacts(contacts, callLogs);
         top5Contacts.forEach(System.out::println);
+
+        System.out.println("_________________Top 5 contacts by messages________________");
+        List<TopMessages.ContactWithMessages> top5ContactsByMessages = TopMessages.getTop5ContactsByMessages(contacts, messages);
+        top5ContactsByMessages.forEach(System.out::println);
     }
 }

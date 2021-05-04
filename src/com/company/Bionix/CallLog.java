@@ -15,7 +15,7 @@ public class CallLog {
         this.status = status;
     }
 
-    public enum Status{
+    public enum Status {
         Incoming,
         Outgoing,
         Missed,

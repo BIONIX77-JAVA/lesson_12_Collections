@@ -13,7 +13,7 @@ public class Message {
         this.status = status;
     }
 
-    public enum Status{
+    public enum Status {
         Incoming,
         Outgoing,
     }
@@ -29,5 +29,12 @@ public class Message {
     @Override
     public int hashCode() {
         return Objects.hash(phoneNumber, massageText, status);
+    }
+
+    @Override
+    public String toString() {
+        return
+                ",   massageText=   " + massageText +
+                ", status=" + status;
     }
 }
