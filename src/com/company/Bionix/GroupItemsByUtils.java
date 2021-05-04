@@ -2,7 +2,6 @@ package com.company.Bionix;
 
 import java.util.*;
 
-
 public class GroupItemsByUtils {
 
     public static Map<String, Contact> groupContactsByNumber(Collection<Contact> contacts) {
