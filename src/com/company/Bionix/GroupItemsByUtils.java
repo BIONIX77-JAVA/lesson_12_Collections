@@ -13,24 +13,22 @@ public class GroupItemsByUtils {
         return result;
     }
 
-    public static Map<String, List<Message>>groupMessagesByNumber(Collection<Message> messages) {
+    public static Map<String, List<Message>>groupMessagesByNumber(Collection<Message> messages,Collection<Contact>contacts) {
         Map<String, List<Message>> output = new HashMap<>();
         for (Message message : messages) {
-            List<Message> exitingGroup1 = output.get(message.phoneNumber);
-            if (exitingGroup1 == null) {
+            if (output.containsKey(message.phoneNumber)) {
+                output.get(message.phoneNumber).add(message);
+            } else {
                 List<Message> newGroup = new ArrayList<>();
                 newGroup.add(message);
                 output.put(message.phoneNumber, newGroup);
-                if(message.phoneNumber==null||message.massageText==null){
-//                    message.massageText.equals("There is no messages");
-                }
-            } else {
-                exitingGroup1.add(message);
             }
+        }
+        for (Contact contact : contacts) {
+           output.putIfAbsent(contact.phoneNumber,new ArrayList<>());
         }
         return output;
     }
-
     public static Map<String, List<CallLog>> groupCallLogsByNumber(Collection<CallLog> callLogs) {
 
         Map<String, List<CallLog>> output = new HashMap<>();

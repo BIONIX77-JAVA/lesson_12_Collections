@@ -48,22 +48,27 @@ public class Main {
                 new Contact("+380978654675", "Peter"));
 
         Collection<Message> messages = Arrays.asList(
-                new Message("+380985869432", " there was a cat", Message.Status.Incoming),
-                new Message("+380987676788", " there was a dog", Message.Status.Outgoing),
-                new Message("+380578788888", " there was a big cat", Message.Status.Incoming),
-                new Message("+380668866888", " there was a small cat", Message.Status.Incoming),
-                new Message("+380657878895", " there was a big dog", Message.Status.Outgoing),
-                new Message("+380858785656", " there was a sweet cat", Message.Status.Incoming),
-                new Message("+380985869432", " there was a ugly dog", Message.Status.Incoming),
-                new Message("+380985869432", " there was a fast cat", Message.Status.Incoming),
-                new Message("+380985869432", " there was a slowly dog", Message.Status.Outgoing));
+                new Message("+380985869432", " \"there was a cat\"", Message.Status.Incoming),
+                new Message("+380987676788", " \"there was a dog\"", Message.Status.Outgoing),
+                new Message("+380578788888", " \"there was a big \"", Message.Status.Incoming),
+                new Message("+380668866888", " \"there was a small cat\"", Message.Status.Incoming),
+                new Message("+380657878895", " \"there was a big dog\"", Message.Status.Outgoing),
+                new Message("+380858785656", " \"there was a sweet cat\"", Message.Status.Incoming),
+                new Message("+380985869432", " \"there was a ugly dog\"", Message.Status.Incoming),
+                new Message("+380985869432", " \"there was a fast cat\"", Message.Status.Incoming),
+                new Message("+380657878895", " \"there was a big dog\"", Message.Status.Outgoing),
+                new Message("+380858785656", " \"there was a sweet cat\"", Message.Status.Incoming),
+                new Message("+380985869432", " \"there was a ugly dog\"", Message.Status.Incoming),
+                new Message("+380985869432", " \"there was a fast cat\"", Message.Status.Incoming),
+                new Message("+380985869432", " \"there was a slowly dog\"", Message.Status.Outgoing),
+                new Message("+380985869432", " \"there was a slowly dog\"", Message.Status.Outgoing));
 
         Map<String, List<CallLog>> groupedCalls =
                 GroupItemsByUtils.groupCallLogsByNumber(callLogs);
         Map<String, Contact> groupedContacts =
                 GroupItemsByUtils.groupContactsByNumber(contacts);
         Map<String, List<Message>> groupedMessages =
-                GroupItemsByUtils.groupMessagesByNumber(messages);
+                GroupItemsByUtils.groupMessagesByNumber(messages, contacts);
         for (Map.Entry<String, List<CallLog>> entry : groupedCalls.entrySet()) {
             String phoneNumber = entry.getKey();
             Contact contact = groupedContacts.get(phoneNumber);
@@ -72,20 +77,21 @@ public class Main {
                     : phoneNumber;
             System.out.println("Name : " + contactName);
 
+            if (groupedMessages.get(phoneNumber).isEmpty()) {
+                System.out.println("There are no messages for this phoneNumber");
+            }
             for (Message message : groupedMessages.get(phoneNumber)) {
-                String text = message.massageText != null
-                        ? message.massageText
-                        : "There is no messages dy this number";
-                System.out.println("Text of message : " + message.massageText);
+                String key = message.phoneNumber;
+                System.out.println("By this number :" + key + ",  we have message: " + message.massageText);
             }
 
             for (CallLog callLog : entry.getValue()) {
                 System.out.println("Duration: " + callLog.duration);
                 System.out.println("Is incoming: " + (callLog.status == CallLog.Status.Incoming));
             }
+            System.out.println("__________");
         }
-
-
+        System.out.println("______________________________________________");
         System.out.println("How many calls are associated with the number \"+380985869432\"? Such calls were: " + groupedCalls.get("+380985869432").size());
         System.out.println("How many calls are associated with the number \"+380987676788\"? Such calls were: " + groupedCalls.get("+380987676788").size());
         System.out.println("How many calls are associated with the number \"+380987674322\"? Such calls were: "
@@ -114,38 +120,16 @@ public class Main {
         for (CallLog callLog : callLogSet) {
             System.out.printf("Phone number : \'%5s%10d%15s\' \n", callLog.phoneNumber, callLog.duration, callLog.status);
         }
-        System.out.println("----------------------------------------\n");
 
         Set<Message> messageSet = new HashSet<>(messages);
-        System.out.println("We have " + callLogSet.size() + " unique callLogs( 4 of it not unique): ");
-        for (CallLog callLog : callLogSet) {
-            System.out.printf("Phone number : \'%5s%10d%15s\' \n", callLog.phoneNumber, callLog.duration, callLog.status);
+        System.out.println("______________We have " + messageSet.size() + " unique messages: ");
+        for (Message message : messageSet) {
+            System.out.printf("Phone number : \'%15s%25s%10s\' \n", message.phoneNumber, message.massageText, message.status);
         }
 
+
+        System.out.println("_________________Top 5 contacts________________");
+        List<TopContacts.ContactWithCallsCount> top5Contacts = TopContacts.getTop5Contacts(contacts, callLogs);
+        top5Contacts.forEach(System.out::println);
     }
 }
-//    Реализуйте классы, описывающие контакт в телефонной книге, запись в
-//        журнале звонков и одно сообщение (Contact, CallLog, Message). Классы не
-//        имеют явной связи между собой.
-//        2.
-//        Определите тестовый набор контактов, звонков и сообщений, используя
-//        коллекции (List<Contact>, List<CallLog>, List<Message>).
-//        3.
-//        Реализуйте функции текстового поиска по коллекциям с контактами,
-//        звонками и сообщениями (Collection<Contact> find(Collection<Contact>, String)).
-//        4.
-//        Используя отображения, сгруппируйте все звонки по контактам и выведите на
-//        консоль (Map<String, Contact>, Map<String, List<CallLog>>).
-//        7Практика #2
-//        5.
-//        Определить и вывести уникальные элементы в коллекциях контактов,
-//        звонков и сообщений (List<Contact>, Set<Contact>).
-//        5.
-//        Используя отображения, сгруппируйте все сообщения по контактам
-//        (Map<String, Contact>, Map<String, List<Message>>).
-//        6.
-//        Реализуйте вывод топ-5 контактов с наибольшим количеством звонков
-//        (List<Pair<Contact, Integer>>, Map<Contact, Integer>).
-//        7.
-//        Реализуйте вывод топ-5 контактов с наибольшим количеством сообщений
-//        (List<Pair<Contact, Integer>>, Map<Contact, Integer>).

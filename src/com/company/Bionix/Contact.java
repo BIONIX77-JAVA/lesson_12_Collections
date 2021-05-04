@@ -23,4 +23,10 @@ public class Contact {
     public int hashCode() {
         return Objects.hash(phoneNumber, name);
     }
+
+    @Override
+    public String toString() {
+        return "phoneNumber : " + phoneNumber +
+                ", name : " + name + " , ";
+    }
 }
